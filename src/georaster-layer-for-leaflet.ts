@@ -381,6 +381,12 @@ const GeoRasterLayer: (new (options: GeoRasterLayerOptions) => any) & typeof L.C
       if (debugLevel >= 2) log({ extentOfTileInMapCRS });
 
       let extentOfInnerTileInMapCRS = extentOfTileInMapCRS.crop(inSimpleCRS ? extentOfLayer : this.extent);
+	  
+	  // Workaround for https://mosaicatm.atlassian.net/browse/FAACOMETTS-1183
+	  if (!extentOfInnerTileInMapCRS) {
+		extentOfInnerTileInMapCRS = extentOfTileInMapCRS;
+	  }
+	  
       if (debugLevel >= 2)
         console.log(
           "[georaster-layer-for-leaflet] extentOfInnerTileInMapCRS",
